@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual env
+.venv/
+
+# Test / scratch
+hyspec-test/
+
+# IDE
+.idea/
+.vscode/
