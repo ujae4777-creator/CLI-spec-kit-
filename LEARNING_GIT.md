@@ -5,16 +5,16 @@
 
 ---
 
-## 지금 repo (step-1)
+## 지금 repo (step-2)
 
 | 항목 | 값 |
 |------|-----|
-| **태그** | `step-1-cli` |
-| **포함** | `hyspec version`만 · kit md 4종(루트, CLI 배포 없음) |
+| **태그** | `step-2-copy` |
+| **포함** | `version` + `copy` · `_kit.py` · kit md 4종 |
 | **GitHub** | `origin/master` |
 
 ```powershell
-git log -1 --oneline --decorate
+git log -3 --oneline --decorate
 git tag -l "step-*"
 ```
 
@@ -24,32 +24,35 @@ git tag -l "step-*"
 
 | 구간 | 태그 | 포함 내용 | 상태 |
 |:---:|------|-----------|:----:|
-| step-1 | `step-1-cli` | CLI + `version` + kit md 4종 | ✅ **지금** |
-| step-2 | `step-2-copy` | `_kit.py` + `hyspec copy` | ⏳ 다음 |
-| step-3 | `step-3-init` | `hyspec init` → `.specify/` | ⏳ |
+| step-1 | `step-1-cli` | CLI + `version` + kit md 4종 | ✅ |
+| step-2 | `step-2-copy` | `_kit.py` + `hyspec copy` | ✅ **지금** |
+| step-3 | `step-3-init` | `hyspec init` → `.specify/` | ⏳ 다음 |
 | step-4 | `step-4-scripts` | `scripts/` + feature 폴더 | ⏳ |
 | step-5 | `step-5-skill` | Cursor skill 1개 | ⏳ |
 | step-6 | `step-6-sdd` | tasks / implement | ⏳ |
 
 ---
 
-## step-1 이후 커밋·태그 (초안)
-
-### step-2-copy
+## diff 연습
 
 ```powershell
-git add .
-git commit -m "step-2: add hyspec copy"
-git tag -a step-2-copy -m "Learning: copy command"
-git push origin master
-git push origin step-2-copy
+# step-1 vs step-2 (copy 추가분)
+git diff --stat step-1-cli HEAD
+git diff step-1-cli HEAD
+
+# copy만 추가된 커밋 하나
+git show md복사명령
 ```
 
-### step-3-init
+---
+
+## step-3 이후 (초안)
 
 ```powershell
-git commit -m "step-3: add hyspec init"
+git commit -m "step-3: init"
 git tag -a step-3-init -m "Learning: .specify layout"
+git push origin master
+git push origin step-3-init
 ```
 
 ---
@@ -58,10 +61,9 @@ git tag -a step-3-init -m "Learning: .specify layout"
 
 ```powershell
 git log --oneline --decorate
-git checkout step-1-cli          # 1단계로 되돌아보기 (읽기)
+git checkout step-1-cli          # 1단계 스냅샷 보기
+git checkout step-2-copy         # 2단계 스냅샷 보기
 git checkout master              # 최신으로
-git tag -f step-1-cli            # amend 후 태그 옮기기
-git push origin step-1-cli --force
 ```
 
 ---
