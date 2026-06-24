@@ -1,4 +1,4 @@
-# kit md 4개가 어디 있는지 찾는 도구 (나중에 copy 명령이 씀)
+# kit md 4개가 어디 있는지 찾는 도구 (copy 명령이 씀)
 # ※ 터미널에서 cd 한 "지금 폴더"가 아님!
 #    → spec-first-kit 프로젝트 폴더( pyproject.toml 있는 곳 )을 찾음
 
