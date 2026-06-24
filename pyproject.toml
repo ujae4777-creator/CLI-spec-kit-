@@ -1,18 +1,22 @@
+# ── 패키지 정보 (pip install 시 읽음) ──
 [project]
-name = "hyspec-cli"
-version = "0.0.1"
+name = "hyspec-cli"          # PyPI/로컬 패키지 이름
+version = "0.0.1"            # _version.py와 맞추면 좋음
 description = "HYspec — Spec-Driven Development CLI (learning edition)."
-requires-python = ">=3.11"
+requires-python = ">=3.11"   # Python 3.11 이상 필요
 dependencies = [
-    "typer>=0.24.0",
+    "typer>=0.24.0",         # CLI 프레임워크
 ]
 
+# ── 터미널 명령 등록: hyspec → hyspec_cli.main() ──
 [project.scripts]
 hyspec = "hyspec_cli:main"
 
+# ── 빌드 도구 (pip install -e . 할 때 hatchling 사용) ──
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# ── wheel에 넣을 Python 패키지 경로 ──
 [tool.hatch.build.targets.wheel]
 packages = ["src/hyspec_cli"]
