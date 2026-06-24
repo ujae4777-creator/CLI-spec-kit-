@@ -1,2 +1,2 @@
-# hyspec version 명령이 출력하는 버전 문자열
+# hyspec version 치면 이 숫자가 나와요
 __version__ = "0.0.1"
