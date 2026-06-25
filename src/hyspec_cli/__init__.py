@@ -7,7 +7,8 @@ from pathlib import Path
 
 import typer
 
-from ._init import copy_init_files, create_init_dirs, specify_root
+from ._feature import create_feature
+from ._init import copy_init_files, copy_init_scripts, create_init_dirs, specify_root
 from ._kit import kit_file_path
 from ._version import __version__
 
@@ -57,9 +58,29 @@ def init_cmd() -> None:
     project_dir = Path.cwd()  # 터미널에서 cd 한 곳 = 대상 프로젝트
     create_init_dirs(project_dir)
     copied = copy_init_files(project_dir)
+    scripts = copy_init_scripts(project_dir)
     typer.echo(
-        f"Initialized {specify_root(project_dir)} ({len(copied)} kit files)"
+        f"Initialized {specify_root(project_dir)} "
+        f"({len(copied)} kit files, {len(scripts)} scripts)"
     )
+
+
+# hyspec feature "설명" — specs/001-이름/ + spec.md 만들기
+@app.command("feature")
+def feature_cmd(
+    description: str = typer.Argument(help="기능 설명 (폴더 이름에 반영)"),
+) -> None:
+    """Create specs/<###-slug>/ with spec.md from the template."""
+    project_dir = Path.cwd()
+    try:
+        feature_dir = create_feature(project_dir, description)
+    except FileNotFoundError as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1) from exc
+
+    spec_file = feature_dir / "spec.md"
+    typer.echo(f"Created {feature_dir.name}/")
+    typer.echo(f"  spec.md → {spec_file}")
 
 
 # pyproject.toml에서 hyspec = "hyspec_cli:main" 이 가리키는 곳
