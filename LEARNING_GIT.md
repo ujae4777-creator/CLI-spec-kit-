@@ -5,12 +5,12 @@
 
 ---
 
-## 지금 repo (step-12)
+## 지금 repo (step-13)
 
 | 항목 | 값 |
 |------|-----|
-| **태그** | `step-12-e2e` |
-| **포함** | examples/e2e-mini SDD 워크스루 |
+| **태그** | `step-13-prerequisites` |
+| **포함** | check-prerequisites.ps1 |
 | **GitHub** | `origin/master` |
 
 ```powershell
@@ -24,27 +24,26 @@ git tag -l "step-*"
 
 | 구간 | 태그 | 포함 내용 | 상태 |
 |:---:|------|-----------|:----:|
-| step-1 ~ step-11 | … `step-11-checklist` | CLI + SDD + 8 skills | ✅ |
-| step-12 | `step-12-e2e` | e2e 미니 프로젝트 가이드 | ✅ **지금** |
-| step-13 | (예정) | wheel 번들 또는 prerequisites | ⏳ 다음 |
+| step-1 ~ step-12 | … `step-12-e2e` | CLI + SDD + e2e 가이드 | ✅ |
+| step-13 | `step-13-prerequisites` | check-prerequisites.ps1 | ✅ **지금** |
+| step-14 | (예정) | wheel 번들 또는 common.ps1 | ⏳ 다음 |
 
 ---
 
 ## diff 연습
 
 ```powershell
-git diff --stat step-11-checklist step-12-e2e
-git show e2e시나리오
+git diff --stat step-12-e2e step-13-prerequisites
+git show prerequisites스크립트
 ```
 
 ---
 
-## e2e 실습 시작
+## prerequisites 확인
 
 ```powershell
-cd examples\e2e-mini
-Get-Content README.md
-# 별도 폴더에서 WALKTHROUGH.md 따름
+.\.specify\scripts\powershell\check-prerequisites.ps1 -Json -PathsOnly
+.\.specify\scripts\powershell\check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 ```
 
 ---
@@ -52,8 +51,8 @@ Get-Content README.md
 ## 자주 쓰는 명령
 
 ```powershell
-git checkout step-11-checklist
 git checkout step-12-e2e
+git checkout step-13-prerequisites
 git checkout master
 ```
 
