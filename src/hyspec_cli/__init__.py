@@ -7,6 +7,7 @@ from pathlib import Path
 
 import typer
 
+from ._init import create_init_dirs, specify_root
 from ._kit import kit_file_path
 from ._version import __version__
 
@@ -47,6 +48,15 @@ def copy_cmd(
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
     typer.echo(f"Copied {source.name} → {target}")
+
+
+# hyspec init — 지금 cd 한 폴더에 .specify/ 뼈대 만들기
+@app.command("init")
+def init_cmd() -> None:
+    """Create .specify/ folder layout in the current directory."""
+    project_dir = Path.cwd()  # 터미널에서 cd 한 곳 = 대상 프로젝트
+    create_init_dirs(project_dir)
+    typer.echo(f"Initialized {specify_root(project_dir)}")
 
 
 # pyproject.toml에서 hyspec = "hyspec_cli:main" 이 가리키는 곳
