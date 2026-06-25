@@ -3,13 +3,16 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 from pathlib import Path
 
 from ._kit import kit_file_path, kit_repo_root
+from ._version import __version__
 
 # 프로젝트 루트에 생기는 폴더 이름
 SPECIFY_DIR = ".specify"
+INIT_OPTIONS_FILE = "init-options.json"
 
 INIT_DIRS = (
     ".specify/templates",
@@ -44,19 +47,42 @@ def create_init_dirs(project_dir: Path) -> list[Path]:
     return created
 
 
-def copy_init_files(project_dir: Path) -> list[Path]:
+def write_init_options(project_dir: Path) -> Path:
+    # init 할 때마다 버전·스크립트 설정 기록 (Spec Kit init-options.json 축소판)
+    path = specify_root(project_dir) / INIT_OPTIONS_FILE
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "hyspec_version": __version__,
+        "script": "ps",
+        "skills": True,
+    }
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def _copy_file(source: Path, target: Path, *, force: bool) -> bool:
+    if target.is_file() and not force:
+        return False
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, target)
+    return True
+
+
+def copy_init_files(project_dir: Path, *, force: bool = False) -> tuple[list[Path], list[Path]]:
     # repo kit md → .specify/ 안 (S2 copy를 init에서 한 번에)
     copied: list[Path] = []
+    skipped: list[Path] = []
     for name, rel in INIT_COPIES:
         source = kit_file_path(name)
         target = project_dir / rel
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
-        copied.append(target)
-    return copied
+        if _copy_file(source, target, force=force):
+            copied.append(target)
+        else:
+            skipped.append(target)
+    return copied, skipped
 
 
-def copy_init_scripts(project_dir: Path) -> list[Path]:
+def copy_init_scripts(project_dir: Path, *, force: bool = False) -> tuple[list[Path], list[Path]]:
     # repo scripts/powershell/ → .specify/scripts/powershell/
     source_dir = kit_repo_root() / "scripts" / "powershell"
     if not source_dir.is_dir():
@@ -66,9 +92,13 @@ def copy_init_scripts(project_dir: Path) -> list[Path]:
     dest_dir.mkdir(parents=True, exist_ok=True)
 
     copied: list[Path] = []
+    skipped: list[Path] = []
     for script in sorted(source_dir.iterdir()):
-        if script.is_file():
-            target = dest_dir / script.name
-            shutil.copy2(script, target)
+        if not script.is_file():
+            continue
+        target = dest_dir / script.name
+        if _copy_file(script, target, force=force):
             copied.append(target)
-    return copied
+        else:
+            skipped.append(target)
+    return copied, skipped

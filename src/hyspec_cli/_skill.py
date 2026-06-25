@@ -14,13 +14,16 @@ def skills_dest(project_dir: Path) -> Path:
     return project_dir / SKILLS_DIR
 
 
-def copy_init_skills(project_dir: Path) -> list[Path]:
+def copy_init_skills(
+    project_dir: Path, *, force: bool = False
+) -> tuple[list[Path], list[Path]]:
     # kit repo skills/<name>/SKILL.md → .cursor/skills/<name>/SKILL.md
     source_root = kit_repo_root() / "skills"
     if not source_root.is_dir():
         raise FileNotFoundError(f"Kit skills not found: {source_root}")
 
     copied: list[Path] = []
+    skipped: list[Path] = []
     for skill_dir in sorted(source_root.iterdir()):
         skill_file = skill_dir / "SKILL.md"
         if not skill_dir.is_dir() or not skill_file.is_file():
@@ -28,6 +31,9 @@ def copy_init_skills(project_dir: Path) -> list[Path]:
         dest_dir = skills_dest(project_dir) / skill_dir.name
         dest_dir.mkdir(parents=True, exist_ok=True)
         target = dest_dir / "SKILL.md"
+        if target.is_file() and not force:
+            skipped.append(target)
+            continue
         shutil.copy2(skill_file, target)
         copied.append(target)
-    return copied
+    return copied, skipped

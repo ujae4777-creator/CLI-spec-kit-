@@ -8,7 +8,13 @@ from pathlib import Path
 import typer
 
 from ._feature import create_feature
-from ._init import copy_init_files, copy_init_scripts, create_init_dirs, specify_root
+from ._init import (
+    copy_init_files,
+    copy_init_scripts,
+    create_init_dirs,
+    specify_root,
+    write_init_options,
+)
 from ._sdd import scaffold_plan, scaffold_tasks
 from ._skill import copy_init_skills
 from ._kit import kit_file_path
@@ -55,17 +61,35 @@ def copy_cmd(
 
 # hyspec init — 지금 cd 한 폴더에 .specify/ 뼈대 만들기
 @app.command("init")
-def init_cmd() -> None:
+def init_cmd(
+    force: bool = typer.Option(
+        False, "--force", help="Overwrite existing kit files, scripts, and skills"
+    ),
+) -> None:
     """Create .specify/ folder layout in the current directory."""
     project_dir = Path.cwd()  # 터미널에서 cd 한 곳 = 대상 프로젝트
     create_init_dirs(project_dir)
-    copied = copy_init_files(project_dir)
-    scripts = copy_init_scripts(project_dir)
-    skills = copy_init_skills(project_dir)
+    options = write_init_options(project_dir)
+    copied_files, skipped_files = copy_init_files(project_dir, force=force)
+    copied_scripts, skipped_scripts = copy_init_scripts(project_dir, force=force)
+    copied_skills, skipped_skills = copy_init_skills(project_dir, force=force)
+    typer.echo(f"Initialized {specify_root(project_dir)}")
+    typer.echo(f"  init-options → {options}")
     typer.echo(
-        f"Initialized {specify_root(project_dir)} "
-        f"({len(copied)} kit files, {len(scripts)} scripts, {len(skills)} skills)"
+        f"  kit: {len(copied_files)} copied"
+        + (f", {len(skipped_files)} skipped" if skipped_files else "")
     )
+    typer.echo(
+        f"  scripts: {len(copied_scripts)} copied"
+        + (f", {len(skipped_scripts)} skipped" if skipped_scripts else "")
+    )
+    typer.echo(
+        f"  skills: {len(copied_skills)} copied"
+        + (f", {len(skipped_skills)} skipped" if skipped_skills else "")
+    )
+    if skipped_files or skipped_scripts or skipped_skills:
+        if not force:
+            typer.echo("  (use --force to overwrite existing files)")
 
 
 # hyspec feature "설명" — specs/001-이름/ + spec.md 만들기
