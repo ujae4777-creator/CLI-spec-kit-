@@ -9,6 +9,7 @@ import typer
 
 from ._feature import create_feature
 from ._init import copy_init_files, copy_init_scripts, create_init_dirs, specify_root
+from ._skill import copy_init_skills
 from ._kit import kit_file_path
 from ._version import __version__
 
@@ -59,9 +60,10 @@ def init_cmd() -> None:
     create_init_dirs(project_dir)
     copied = copy_init_files(project_dir)
     scripts = copy_init_scripts(project_dir)
+    skills = copy_init_skills(project_dir)
     typer.echo(
         f"Initialized {specify_root(project_dir)} "
-        f"({len(copied)} kit files, {len(scripts)} scripts)"
+        f"({len(copied)} kit files, {len(scripts)} scripts, {len(skills)} skills)"
     )
 
 
