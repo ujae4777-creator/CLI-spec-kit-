@@ -21,7 +21,7 @@ cd C:\path\to\my-e2e
 
 | 도구 | 역할 |
 |------|------|
-| **터미널** | `hyspec` CLI |
+| **터미널** | `hyspec` CLI + `check-prerequisites.ps1` |
 | **Cursor Agent** | `hyspec-*` skill 로 md 작성·검증·구현 |
 
 ---
@@ -45,6 +45,35 @@ init → constitution → feature → specify → clarify → checklist
 | ⑧ tasks | `hyspec tasks` | hyspec-tasks |
 | ⑨ analyze | — | hyspec-analyze |
 | ⑩ implement | — | hyspec-implement |
+
+---
+
+## 선행 조건 검사 (check-prerequisites.ps1)
+
+`init` 후 `.specify/scripts/powershell/check-prerequisites.ps1` 가 복사된다.  
+단계를 건너뛰었는지 **터미널에서 먼저** 확인할 수 있다.
+
+```powershell
+$cp = .\.specify\scripts\powershell\check-prerequisites.ps1
+
+# 경로만 (Agent 가 feature 경로 읽을 때)
+& $cp -Json -PathsOnly
+
+# plan 전 — spec.md 필요
+& $cp -Json -RequireSpec -PathsOnly
+
+# tasks / analyze 전 — plan.md 필요 (기본 검사)
+& $cp -Json
+
+# implement 전 — tasks.md 필요
+& $cp -Json -RequireTasks -IncludeTasks
+```
+
+| 시점 | 권장 옵션 |
+|------|-----------|
+| plan / checklist (spec 기준) | `-RequireSpec -PathsOnly` |
+| tasks / analyze | `-Json` (plan 필수) |
+| implement | `-RequireTasks -IncludeTasks` |
 
 ---
 

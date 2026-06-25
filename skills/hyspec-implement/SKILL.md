@@ -49,5 +49,6 @@ description: >-
 hyspec feature "설명"
 hyspec plan
 hyspec tasks
-# → tasks.md 채운 뒤 이 skill 로 구현
+.\.specify\scripts\powershell\check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
+# → tasks.md 준비 확인 후 이 skill 로 구현
 ```
