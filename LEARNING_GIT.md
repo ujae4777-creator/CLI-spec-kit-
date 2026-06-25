@@ -5,12 +5,12 @@
 
 ---
 
-## 지금 repo (step-10)
+## 지금 repo (step-11)
 
 | 항목 | 값 |
 |------|-----|
-| **태그** | `step-10-init` |
-| **포함** | init-options + setup scripts + init --force |
+| **태그** | `step-11-checklist` |
+| **포함** | hyspec-checklist skill + analyze 역할 분리 |
 | **GitHub** | `origin/master` |
 
 ```powershell
@@ -24,17 +24,17 @@ git tag -l "step-*"
 
 | 구간 | 태그 | 포함 내용 | 상태 |
 |:---:|------|-----------|:----:|
-| step-1 ~ step-9 | … `step-9-quality` | CLI + SDD + quality skills | ✅ |
-| step-10 | `step-10-init` | init-options + setup scripts + --force | ✅ **지금** |
-| step-11 | (예정) | core_pack wheel 또는 e2e 실습 | ⏳ 다음 |
+| step-1 ~ step-10 | … `step-10-init` | CLI + SDD + init-options | ✅ |
+| step-11 | `step-11-checklist` | checklist skill + analyze 정리 | ✅ **지금** |
+| step-12 | (예정) | e2e 실습 또는 wheel 번들 | ⏳ 다음 |
 
 ---
 
 ## diff 연습
 
 ```powershell
-git diff --stat step-9-quality step-10-init
-git show init옵션
+git diff --stat step-10-init step-11-checklist
+git show checklist스킬
 ```
 
 ---
@@ -42,8 +42,8 @@ git show init옵션
 ## 자주 쓰는 명령
 
 ```powershell
-git checkout step-9-quality
 git checkout step-10-init
+git checkout step-11-checklist
 git checkout master
 ```
 
