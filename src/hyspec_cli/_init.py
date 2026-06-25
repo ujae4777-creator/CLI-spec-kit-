@@ -6,7 +6,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from ._kit import kit_file_path
+from ._kit import kit_file_path, kit_repo_root
 
 # 프로젝트 루트에 생기는 폴더 이름
 SPECIFY_DIR = ".specify"
@@ -14,6 +14,7 @@ SPECIFY_DIR = ".specify"
 INIT_DIRS = (
     ".specify/templates",
     ".specify/memory",
+    ".specify/scripts/powershell",
 )
 
 # kit 짧은 이름 → 프로젝트 안에 복사할 상대 경로 (copy 여러 번을 init 한 번으로)
@@ -50,4 +51,22 @@ def copy_init_files(project_dir: Path) -> list[Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
         copied.append(target)
+    return copied
+
+
+def copy_init_scripts(project_dir: Path) -> list[Path]:
+    # repo scripts/powershell/ → .specify/scripts/powershell/
+    source_dir = kit_repo_root() / "scripts" / "powershell"
+    if not source_dir.is_dir():
+        raise FileNotFoundError(f"Kit scripts not found: {source_dir}")
+
+    dest_dir = project_dir / ".specify" / "scripts" / "powershell"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    copied: list[Path] = []
+    for script in sorted(source_dir.iterdir()):
+        if script.is_file():
+            target = dest_dir / script.name
+            shutil.copy2(script, target)
+            copied.append(target)
     return copied
