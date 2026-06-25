@@ -57,3 +57,25 @@ def create_feature(project_dir: Path, description: str) -> Path:
         raise FileNotFoundError(f"Spec template not found: {template}")
 
     return feature_dir
+
+
+def resolve_feature_dir(project_dir: Path, name: str | None = None) -> Path:
+    # specs/001-foo/ 고르기 — 이름 없으면 번호가 가장 큰 폴더
+    specs = project_dir / SPECS_DIR
+    if not specs.is_dir():
+        raise FileNotFoundError("No specs/ folder. Run hyspec feature first.")
+
+    if name is not None:
+        feature_dir = specs / name
+        if not feature_dir.is_dir():
+            raise FileNotFoundError(f"Feature not found: {feature_dir}")
+        return feature_dir
+
+    candidates = [
+        item
+        for item in specs.iterdir()
+        if item.is_dir() and len(item.name) >= 3 and item.name[:3].isdigit()
+    ]
+    if not candidates:
+        raise FileNotFoundError("No feature folders in specs/.")
+    return max(candidates, key=lambda item: int(item.name[:3]))
