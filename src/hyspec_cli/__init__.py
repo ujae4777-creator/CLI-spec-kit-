@@ -36,7 +36,7 @@ def version_cmd() -> None:
 # hyspec copy specify ./out.md — repo 루트 md를 원하는 곳에 복사
 @app.command("copy")
 def copy_cmd(
-    name: str = typer.Argument(help="constitution, specify, clarify, plan, tasks"),
+    name: str = typer.Argument(help="constitution, specify, clarify, plan, tasks, checklist"),
     dest: Path = typer.Argument(help="복사할 파일 또는 폴더 경로"),
 ) -> None:
     """Copy one kit markdown file from the repo to dest."""

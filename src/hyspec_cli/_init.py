@@ -25,6 +25,7 @@ INIT_COPIES: tuple[tuple[str, str], ...] = (
     ("clarify", ".specify/templates/clarify-template.md"),
     ("plan", ".specify/templates/plan-template.md"),
     ("tasks", ".specify/templates/tasks-template.md"),
+    ("checklist", ".specify/templates/checklist-template.md"),
 )
 
 

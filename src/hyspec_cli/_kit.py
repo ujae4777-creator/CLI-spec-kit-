@@ -14,6 +14,7 @@ KIT_FILES: dict[str, str] = {
     "clarify": "CLARIFY.md",
     "plan": "PLAN.md",
     "tasks": "TASKS.md",
+    "checklist": "CHECKLIST.md",
 }
 
 
