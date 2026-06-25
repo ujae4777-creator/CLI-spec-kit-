@@ -5,16 +5,16 @@
 
 ---
 
-## 지금 repo (step-3)
+## 지금 repo (step-4)
 
 | 항목 | 값 |
 |------|-----|
-| **태그** | `step-3-init` |
-| **포함** | `version` + `copy` + `init` · `.specify/` + kit md 복사 |
+| **태그** | `step-4-scripts` |
+| **포함** | `version` + `copy` + `init` + `feature` · scripts + specs/ |
 | **GitHub** | `origin/master` |
 
 ```powershell
-git log -5 --oneline --decorate
+git log -6 --oneline --decorate
 git tag -l "step-*"
 ```
 
@@ -26,9 +26,9 @@ git tag -l "step-*"
 |:---:|------|-----------|:----:|
 | step-1 | `step-1-cli` | CLI + `version` + kit md 4종 | ✅ |
 | step-2 | `step-2-copy` | `_kit.py` + `hyspec copy` | ✅ |
-| step-3 | `step-3-init` | `hyspec init` → `.specify/` + md | ✅ **지금** |
-| step-4 | `step-4-scripts` | `scripts/` + feature 폴더 | ⏳ 다음 |
-| step-5 | `step-5-skill` | Cursor skill 1개 | ⏳ |
+| step-3 | `step-3-init` | `hyspec init` → `.specify/` + md | ✅ |
+| step-4 | `step-4-scripts` | `feature` + scripts/ + specs/ | ✅ **지금** |
+| step-5 | `step-5-skill` | Cursor skill 1개 | ⏳ 다음 |
 | step-6 | `step-6-sdd` | tasks / implement | ⏳ |
 
 ---
@@ -36,23 +36,23 @@ git tag -l "step-*"
 ## diff 연습
 
 ```powershell
-# step-2 vs step-3 (init 추가분)
-git diff --stat step-2-copy HEAD
-git diff step-2-copy HEAD
+# step-3 vs step-4 (feature + scripts 추가분)
+git diff --stat step-3-init HEAD
+git diff step-3-init HEAD
 
-# init md 복사 커밋 하나
-git show initmd복사
+# feature 명령 커밋 하나
+git show feature명령
 ```
 
 ---
 
-## step-4 이후 (초안)
+## step-5 이후 (초안)
 
 ```powershell
-git commit -m "step-4: scripts"
-git tag -a step-4-scripts -m "Learning: feature scripts"
+git commit -m "step-5: skill"
+git tag -a step-5-skill -m "Learning: Cursor skill"
 git push origin master
-git push origin step-4-scripts
+git push origin step-5-skill
 ```
 
 ---
@@ -61,9 +61,8 @@ git push origin step-4-scripts
 
 ```powershell
 git log --oneline --decorate
-git checkout step-1-cli          # 1단계 스냅샷 보기
-git checkout step-2-copy         # 2단계 스냅샷 보기
 git checkout step-3-init         # 3단계 스냅샷 보기
+git checkout step-4-scripts      # 4단계 스냅샷 보기
 git checkout master              # 최신으로
 ```
 
