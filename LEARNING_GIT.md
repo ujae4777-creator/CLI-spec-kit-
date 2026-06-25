@@ -5,16 +5,16 @@
 
 ---
 
-## 지금 repo (step-4)
+## 지금 repo (step-5)
 
 | 항목 | 값 |
 |------|-----|
-| **태그** | `step-4-scripts` |
-| **포함** | `version` + `copy` + `init` + `feature` · scripts + specs/ |
+| **태그** | `step-5-skill` |
+| **포함** | init + `.cursor/skills/hyspec-specify` |
 | **GitHub** | `origin/master` |
 
 ```powershell
-git log -6 --oneline --decorate
+git log -7 --oneline --decorate
 git tag -l "step-*"
 ```
 
@@ -27,32 +27,32 @@ git tag -l "step-*"
 | step-1 | `step-1-cli` | CLI + `version` + kit md 4종 | ✅ |
 | step-2 | `step-2-copy` | `_kit.py` + `hyspec copy` | ✅ |
 | step-3 | `step-3-init` | `hyspec init` → `.specify/` + md | ✅ |
-| step-4 | `step-4-scripts` | `feature` + scripts/ + specs/ | ✅ **지금** |
-| step-5 | `step-5-skill` | Cursor skill 1개 | ⏳ 다음 |
-| step-6 | `step-6-sdd` | tasks / implement | ⏳ |
+| step-4 | `step-4-scripts` | `feature` + scripts/ + specs/ | ✅ |
+| step-5 | `step-5-skill` | Cursor skill 1개 | ✅ **지금** |
+| step-6 | `step-6-sdd` | tasks / implement | ⏳ 다음 |
 
 ---
 
 ## diff 연습
 
 ```powershell
-# step-3 vs step-4 (feature + scripts 추가분)
-git diff --stat step-3-init HEAD
-git diff step-3-init HEAD
+# step-4 vs step-5 (skill 추가분)
+git diff --stat step-4-scripts HEAD
+git diff step-4-scripts HEAD
 
-# feature 명령 커밋 하나
-git show feature명령
+# skill 복사 커밋 하나
+git show skill복사
 ```
 
 ---
 
-## step-5 이후 (초안)
+## step-6 이후 (초안)
 
 ```powershell
-git commit -m "step-5: skill"
-git tag -a step-5-skill -m "Learning: Cursor skill"
+git commit -m "step-6: sdd"
+git tag -a step-6-sdd -m "Learning: tasks implement"
 git push origin master
-git push origin step-5-skill
+git push origin step-6-sdd
 ```
 
 ---
@@ -61,8 +61,8 @@ git push origin step-5-skill
 
 ```powershell
 git log --oneline --decorate
-git checkout step-3-init         # 3단계 스냅샷 보기
 git checkout step-4-scripts      # 4단계 스냅샷 보기
+git checkout step-5-skill        # 5단계 스냅샷 보기
 git checkout master              # 최신으로
 ```
 
