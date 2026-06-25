@@ -5,12 +5,12 @@
 
 ---
 
-## 지금 repo (step-11)
+## 지금 repo (step-12)
 
 | 항목 | 값 |
 |------|-----|
-| **태그** | `step-11-checklist` |
-| **포함** | hyspec-checklist skill + analyze 역할 분리 |
+| **태그** | `step-12-e2e` |
+| **포함** | examples/e2e-mini SDD 워크스루 |
 | **GitHub** | `origin/master` |
 
 ```powershell
@@ -24,17 +24,27 @@ git tag -l "step-*"
 
 | 구간 | 태그 | 포함 내용 | 상태 |
 |:---:|------|-----------|:----:|
-| step-1 ~ step-10 | … `step-10-init` | CLI + SDD + init-options | ✅ |
-| step-11 | `step-11-checklist` | checklist skill + analyze 정리 | ✅ **지금** |
-| step-12 | (예정) | e2e 실습 또는 wheel 번들 | ⏳ 다음 |
+| step-1 ~ step-11 | … `step-11-checklist` | CLI + SDD + 8 skills | ✅ |
+| step-12 | `step-12-e2e` | e2e 미니 프로젝트 가이드 | ✅ **지금** |
+| step-13 | (예정) | wheel 번들 또는 prerequisites | ⏳ 다음 |
 
 ---
 
 ## diff 연습
 
 ```powershell
-git diff --stat step-10-init step-11-checklist
-git show checklist스킬
+git diff --stat step-11-checklist step-12-e2e
+git show e2e시나리오
+```
+
+---
+
+## e2e 실습 시작
+
+```powershell
+cd examples\e2e-mini
+Get-Content README.md
+# 별도 폴더에서 WALKTHROUGH.md 따름
 ```
 
 ---
@@ -42,8 +52,8 @@ git show checklist스킬
 ## 자주 쓰는 명령
 
 ```powershell
-git checkout step-10-init
 git checkout step-11-checklist
+git checkout step-12-e2e
 git checkout master
 ```
 
