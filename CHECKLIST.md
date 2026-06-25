@@ -7,7 +7,7 @@ feature:              # specs/<###-name>/
 # CHECKLIST — 품질 점검
 
 > **품질 게이트** — spec / plan / tasks 가 **서로 맞는지** 확인할 때 쓴다.
-> Agent(`hyspec-analyze`) 또는 사람이 `- [ ]` 를 `- [x]` 로 바꾼다.
+> Agent(`hyspec-checklist` 로 생성, 사람·Agent 가 `- [ ]` → `- [x]`) — `hyspec-analyze` 는 정합 검사용.
 
 **Purpose:** [이 checklist 가 검사하는 것 — 예: spec 완성도]
 **Created:** [DATE]
