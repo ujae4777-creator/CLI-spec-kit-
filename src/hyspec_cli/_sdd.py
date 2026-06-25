@@ -28,21 +28,29 @@ def _copy_template(project_dir: Path, feature_dir: Path, template_rel: str, dest
     return target
 
 
-def scaffold_plan(project_dir: Path, feature: str | None = None) -> Path:
-    # spec.md 있어야 plan (② → ④)
+def scaffold_plan(project_dir: Path, feature: str | None = None) -> tuple[Path, str]:
+    # spec.md 있어야 plan (② → ④). 있으면 복사 안 함 (step-8)
     _require_specify(project_dir)
     feature_dir = resolve_feature_dir(project_dir, feature)
     spec_file = feature_dir / "spec.md"
     if not spec_file.is_file():
         raise FileNotFoundError(f"spec.md required before plan: {spec_file}")
-    return _copy_template(project_dir, feature_dir, PLAN_TEMPLATE, "plan.md")
+    target = feature_dir / "plan.md"
+    if target.is_file():
+        return target, "exists"
+    created = _copy_template(project_dir, feature_dir, PLAN_TEMPLATE, "plan.md")
+    return created, "created"
 
 
-def scaffold_tasks(project_dir: Path, feature: str | None = None) -> Path:
-    # plan.md 있어야 tasks (④ → ⑤)
+def scaffold_tasks(project_dir: Path, feature: str | None = None) -> tuple[Path, str]:
+    # plan.md 있어야 tasks (④ → ⑤). 있으면 복사 안 함 (step-8)
     _require_specify(project_dir)
     feature_dir = resolve_feature_dir(project_dir, feature)
     plan_file = feature_dir / "plan.md"
     if not plan_file.is_file():
         raise FileNotFoundError(f"plan.md required before tasks: {plan_file}")
-    return _copy_template(project_dir, feature_dir, TASKS_TEMPLATE, "tasks.md")
+    target = feature_dir / "tasks.md"
+    if target.is_file():
+        return target, "exists"
+    created = _copy_template(project_dir, feature_dir, TASKS_TEMPLATE, "tasks.md")
+    return created, "created"

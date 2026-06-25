@@ -94,15 +94,20 @@ def plan_cmd(
         None, help="specs 폴더 이름 (없으면 번호가 가장 큰 feature)"
     ),
 ) -> None:
-    """Copy plan template into the active feature folder."""
+    """Scaffold plan.md if missing; otherwise point to hyspec-plan skill."""
     project_dir = Path.cwd()
     try:
-        plan_file = scaffold_plan(project_dir, feature)
+        plan_file, status = scaffold_plan(project_dir, feature)
     except FileNotFoundError as exc:
         typer.secho(str(exc), fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1) from exc
 
-    typer.echo(f"Created {plan_file}")
+    if status == "created":
+        typer.echo(f"Created {plan_file}")
+        typer.echo("Next: use hyspec-plan skill in Cursor to fill plan.md from spec.md")
+    else:
+        typer.echo(f"Already exists: {plan_file}")
+        typer.echo("Use hyspec-plan skill to update plan.md (CLI does not overwrite)")
 
 
 # hyspec tasks — specs/.../tasks.md 템플릿 깔기 (plan.md 필요)
@@ -112,15 +117,20 @@ def tasks_cmd(
         None, help="specs 폴더 이름 (없으면 번호가 가장 큰 feature)"
     ),
 ) -> None:
-    """Copy tasks template into the active feature folder."""
+    """Scaffold tasks.md if missing; otherwise point to hyspec-tasks skill."""
     project_dir = Path.cwd()
     try:
-        tasks_file = scaffold_tasks(project_dir, feature)
+        tasks_file, status = scaffold_tasks(project_dir, feature)
     except FileNotFoundError as exc:
         typer.secho(str(exc), fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1) from exc
 
-    typer.echo(f"Created {tasks_file}")
+    if status == "created":
+        typer.echo(f"Created {tasks_file}")
+        typer.echo("Next: use hyspec-tasks skill in Cursor to fill tasks.md from plan.md")
+    else:
+        typer.echo(f"Already exists: {tasks_file}")
+        typer.echo("Use hyspec-tasks skill to update tasks.md (CLI does not overwrite)")
 
 
 # pyproject.toml에서 hyspec = "hyspec_cli:main" 이 가리키는 곳
