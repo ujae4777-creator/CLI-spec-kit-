@@ -9,6 +9,7 @@ import typer
 
 from ._feature import create_feature
 from ._init import copy_init_files, copy_init_scripts, create_init_dirs, specify_root
+from ._sdd import scaffold_plan, scaffold_tasks
 from ._skill import copy_init_skills
 from ._kit import kit_file_path
 from ._version import __version__
@@ -35,7 +36,7 @@ def version_cmd() -> None:
 # hyspec copy specify ./out.md — repo 루트 md를 원하는 곳에 복사
 @app.command("copy")
 def copy_cmd(
-    name: str = typer.Argument(help="constitution, specify, clarify, plan"),
+    name: str = typer.Argument(help="constitution, specify, clarify, plan, tasks"),
     dest: Path = typer.Argument(help="복사할 파일 또는 폴더 경로"),
 ) -> None:
     """Copy one kit markdown file from the repo to dest."""
@@ -83,6 +84,42 @@ def feature_cmd(
     spec_file = feature_dir / "spec.md"
     typer.echo(f"Created {feature_dir.name}/")
     typer.echo(f"  spec.md → {spec_file}")
+
+
+# hyspec plan — specs/.../plan.md 템플릿 깔기 (spec.md 필요)
+@app.command("plan")
+def plan_cmd(
+    feature: str | None = typer.Argument(
+        None, help="specs 폴더 이름 (없으면 번호가 가장 큰 feature)"
+    ),
+) -> None:
+    """Copy plan template into the active feature folder."""
+    project_dir = Path.cwd()
+    try:
+        plan_file = scaffold_plan(project_dir, feature)
+    except FileNotFoundError as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(f"Created {plan_file}")
+
+
+# hyspec tasks — specs/.../tasks.md 템플릿 깔기 (plan.md 필요)
+@app.command("tasks")
+def tasks_cmd(
+    feature: str | None = typer.Argument(
+        None, help="specs 폴더 이름 (없으면 번호가 가장 큰 feature)"
+    ),
+) -> None:
+    """Copy tasks template into the active feature folder."""
+    project_dir = Path.cwd()
+    try:
+        tasks_file = scaffold_tasks(project_dir, feature)
+    except FileNotFoundError as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(f"Created {tasks_file}")
 
 
 # pyproject.toml에서 hyspec = "hyspec_cli:main" 이 가리키는 곳
