@@ -84,6 +84,7 @@ def feature_cmd(
     spec_file = feature_dir / "spec.md"
     typer.echo(f"Created {feature_dir.name}/")
     typer.echo(f"  spec.md → {spec_file}")
+    typer.echo(f"  active → {feature_dir.relative_to(project_dir.resolve()).as_posix()}")
 
 
 # hyspec plan — specs/.../plan.md 템플릿 깔기 (spec.md 필요)

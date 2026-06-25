@@ -76,3 +76,8 @@ if (Test-Path -LiteralPath $template -PathType Leaf) {
 
 Write-Output "FEATURE_DIR: $featureDir"
 Write-Output "SPEC_FILE: $specFile"
+
+$relFeature = 'specs/' + $branchName
+$featureJsonPath = Join-Path (Join-Path $projectRoot '.specify') 'feature.json'
+@{ feature_directory = $relFeature } | ConvertTo-Json -Compress | Set-Content -LiteralPath $featureJsonPath -Encoding utf8NoBOM
+Write-Output "FEATURE_JSON: $featureJsonPath"
